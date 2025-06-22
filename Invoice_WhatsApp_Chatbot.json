@@ -1,0 +1,459 @@
+{
+  "name": "Invoice WhatsApp Chatbot",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "=https://graph.facebook.com/v23.0/{{ $json.messages[0].image.id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer -token-"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-380, -680],
+      "id": "406c1629-59a4-4c0a-8aa2-09820d90f34d",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer -token-"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-80, -680],
+      "id": "dea082fc-14d8-4637-8da7-151958c15bce",
+      "name": "HTTP Request where we download method what Authorization???"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst parsedItems = items.map((item)=>{\n  let content = item.json.content;\n  content = content.replace(\"```json\",\"\").replace(\"```\",\"\");\n  const parsedContent = JSON.parse(content);\n  return parsedContent;\n});\n\nreturn parsedItems[0];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, -680],
+      "id": "599d6b41-3324-43c7-9b55-e0db96ae63f1",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1shf988til4Rm4YtLHxqLrkVqTMtPoSLWpvwoJerEW30",
+          "mode": "list",
+          "cachedResultName": "Invoice n8n"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "invoice"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "SeriaSiNumarulFacturii",
+              "displayName": "SeriaSiNumarulFacturii",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "DataFacturii",
+              "displayName": "DataFacturii",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Furnizator",
+              "displayName": "Furnizator",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "TipulFacturii",
+              "displayName": "TipulFacturii",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "DescrirereaCheltuielii",
+              "displayName": "DescrirereaCheltuielii",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "TotalDePlataFactura",
+              "displayName": "TotalDePlataFactura",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "NumeleClientului",
+              "displayName": "NumeleClientului",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Referinta#",
+              "displayName": "Referinta#",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [480, -420],
+      "id": "8ed76625-",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "-",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Tocmai am analizat o factură și am primit următorul răspuns:\n\n{{ $('Image Analyser1').item.json.content }}\n\nTe rog să faci un rezumat și să-l trimiți înapoi utilizatorului, spunându-i că am înregistrat cu succes într-o foaie de calcul Google.\n\nRăspunsul este doar un mesaj WhatsApp, nu pune salut și subsol, ci păstrează forma punctuală."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [800, -680],
+      "id": "a56e3033-73eb-44ce-a9ce-ebb884cfa35e",
+      "name": "OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "mwiXaZrmLCUY9LS7",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## OpenAI analyze image\nRecomended 4O"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [160, -880],
+      "typeVersion": 1,
+      "id": "b416641d-685b-4896-881d-a9aa89785c9a",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## OpenAI Message Model\nRecomended 4"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [820, -880],
+      "typeVersion": 1,
+      "id": "6e45f289-48e3-4d4d-acf7-10742cb9278b",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "text": "Poti sa extragi urmatoarele informatii din factura?\n\n{\n\"SeriaSiNumarulFacturii\":\"\",\n\"DataFacturii\":\"\",\n\"Furnizator\":\"\",\n\"TipulFacturii\":\"\", (casa, transport, mancare, servicii, etc...)\n\"DescrirereaCheltuielii\":\"\",\n\"TotalDePlataFactura\":\"\",\n\"NumeleClientului\":\"\",\n\"Referinta#\":\"\"\n}\n\nreturneaza in JSON format, returneaza numai JSON fara alt text",
+        "inputType": "base64",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [240, -680],
+      "id": "a6c1cd55-ee7d-4702-97c0-14689bcc2731",
+      "name": "Image Analyser1",
+      "credentials": {
+        "openAiApi": {
+          "id": "mwiXaZrmLCUY9LS7",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "={{ $('WhatsApp Trigger1').first().json.metadata.phone_number_id}}",
+        "recipientPhoneNumber": "={{ $('WhatsApp Trigger1').first().json.messages[0].from }}",
+        "textBody": "={{ $json.message.content }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [1220, -680],
+      "id": "c37c6b41-7513-4372-8c02-7c44af84f08c",
+      "name": "WhatsApp Business Cloud",
+      "webhookId": "ac7a229b-3462-4203-b3ab-3b093546b35a",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "LP30dwv1iJBmT94X",
+          "name": "WhatsApp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Image Tranzaction recording",
+        "height": 500,
+        "width": 1860,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [-440, -760],
+      "typeVersion": 1,
+      "id": "03181e6c-6376-4925-81e9-fbd9a219fd9d",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "updates": ["messages"],
+        "options": {}
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [-820, -580],
+      "id": "6dacec80-93c2-48bc-a204-b1cfbc58e7c5",
+      "name": "WhatsApp Trigger1",
+      "webhookId": "2e57c9dc-d69d-47af-8091-bcfdf9819f31",
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "3oXfwnj0wqPD7QtV",
+          "name": "WhatsApp OAuth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.messages[0].type }}",
+                    "rightValue": "image",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "e975e2ad-ada4-4cb9-ac19-02ffa2f529f4"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "image"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "494e761b-0345-4845-ad9f-73f026ee799d",
+                    "leftValue": "={{ $json.messages[0].type }}",
+                    "rightValue": "document",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "document"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [-600, -580],
+      "id": "b9db0bc6-bc59-43b5-8830-38a027c4e2a4",
+      "name": "Switch1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request where we download method what Authorization???",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request where we download method what Authorization???": {
+      "main": [
+        [
+          {
+            "node": "Image Analyser1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "OpenAI1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI1": {
+      "main": [
+        [
+          {
+            "node": "WhatsApp Business Cloud",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Image Analyser1": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "df60d128-aa1d-4ccc-993c-4501f0437b78",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "06f3fd5eb1f34d6f3c83015990edc60a938b714b4fd0174466851879c02e24f9"
+  },
+  "id": "j8HEVnuFj2z4iHSQ",
+  "tags": []
+}
