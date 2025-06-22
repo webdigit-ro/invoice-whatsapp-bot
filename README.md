@@ -4,7 +4,7 @@
 
 Ca template-ul sa functioneze trebuie setate **Credential**:
 
-Pentru** WhatsApp Trigger1****
+Pentru **WhatsApp Trigger1**
 
 **Client ID** si **Client Secret**  se iau de pe platforma **Meta for Developers** unde trebuie creata o aplicatie si la **App Settings** -> **Basic** se gasesc datele **App ID** si **App secret**
 
