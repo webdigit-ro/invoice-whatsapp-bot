@@ -1,6 +1,13 @@
-# invoice-whatsapp-bot
+# Invoice WhatsApp Bot
+
 
 ![image](https://github.com/user-attachments/assets/b2138d71-8888-44d8-aedb-2456b85e9764)
+
+
+Incarcare Template **n8n**
+
+![Screenshot 2025-06-22 131909](https://github.com/user-attachments/assets/8e90b492-0e02-4886-a49b-43014723b022)
+
 
 Ca template-ul sa functioneze trebuie setate **Credential**:
 
