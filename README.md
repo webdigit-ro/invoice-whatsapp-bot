@@ -22,6 +22,6 @@ Pentru **OpenAI** (ChatGPT) se gaseste pe platforma de cum se genereaza **API ke
 
 **WhatsApp Business Cloud** -> Send Message
 
-**Access Token** si** Business Acount ID** se iau din **WhatsApp**->**API Setup**->**Generate access token**
+**Access Token** si **Business Acount ID** se iau din **WhatsApp**->**API Setup**->**Generate access token**
 
 
